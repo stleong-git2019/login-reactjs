@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Form from './Form.js';
 import Search from './Search.js';
+import Login from './Login.js';
 
 class App extends Component {
   render() {
@@ -13,6 +14,9 @@ class App extends Component {
           <h2>React Form Validation</h2>
         </div>
         <Form />
+		<br/>
+		<br/>
+        <Login />
 		<br/>
 		<br/>
         <Search />

@@ -9,6 +9,7 @@ class Form extends Component {
       email: '',
       password: '',
 	  fullname: '',
+	  items: '',
       formErrors: {email: '', password: '',fullname: ''},
       emailValid: false,
       passwordValid: false,
@@ -65,14 +66,30 @@ class Form extends Component {
 	  event.preventDefault();
 	  
 	  // call to server to get cards
-	  fetch("http://localhost:3001/user",{
+	  fetch("http://35.198.193.108:3000/user",{
 		method: 'POST',
 		headers: {
 		  'Accept': 'application/json',
 		  'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({name: this.state.fullname, email: this.state.email,  password: this.state.password })
-	  });
+	  })
+      .then(res => res.json())
+      .then(
+        (result) => {
+			console.log(result);
+          this.setState({
+            items: result.message
+          });
+				  
+        },
+		
+        (error) => {
+          this.setState({
+            error: "Irregularity occurred"
+          });
+        }
+      )
 	  
 	  
 	};
@@ -106,6 +123,12 @@ class Form extends Component {
             onChange={this.handleUserInput}  />
         </div>
         <button type="submit" className="btn btn-primary" disabled={!this.state.formValid} onClick={e => this.handleFormSubmit(e)} >Sign up</button>
+		
+		<div id="result">
+			<div>
+				{this.state.items}
+			</div>
+		</div>
       </form>
     )
   }

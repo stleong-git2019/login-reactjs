@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
 
-class Search extends Component{
+class Login extends Component{
 	
 	constructor(props) {
 	  super(props);
 	  this.state = {
-		searchName: '',
+		searchEmail: '',
+		password: '',
 		error: null,
 		isLoaded: false,
 		items: []
@@ -18,7 +19,7 @@ class Search extends Component{
 	  
 	  
 	  // call to server to get cards
-	  fetch("http://35.198.193.108:3000/user/"+this.state.searchName)
+	  fetch("http://35.198.193.108:3000/login/"+this.state.searchEmail+"/"+this.state.password)
       .then(res => res.json())
       .then(
         (result) => {
@@ -26,7 +27,7 @@ class Search extends Component{
           this.setState({
             isLoaded: true,
 			error: null,
-            items: result.data
+            items: result.message
           });
 				  
         },
@@ -44,28 +45,32 @@ class Search extends Component{
 	};
 	
 	render() {
-	  const { searchName, error, isLoaded, items } = this.state;
+	  const { searchEmail, password, error, isLoaded, items } = this.state;
 	  return (
-		<div className="Search">
-		<h2>Search
-		</h2>
+		<div className="Login">
+		<h2>Login</h2>
 		<div>
-		<label>Search Name</label>
-		<input id="searchName" name="searchName" placeholder="Search Name.." 
-			value={this.state.searchName}
-			onChange={e => this.setState({ searchName: e.target.value })}
+		<label>Login</label>
+		<input id="searchEmail" name="searchEmail" placeholder="Login Email" 
+			value={this.state.searchEmail}
+			onChange={e => this.setState({ searchEmail: e.target.value })}
 		/>
+        </div>
+		<div>
+		<label>Password</label>
+		<input id="password" name="password" type='password' placeholder="Password" 
+			value={this.state.password}
+			onChange={e => this.setState({ password: e.target.value })}
+		/>
+        </div>
+		<div>
 		<input type="submit" onClick={e => this.handleFormSubmit(e)}  value="Submit" />
 		</div>
 		<div id="error">
 			{error}
 		</div>
 		<div id="result">
-			{items.map((item) => (
-			<div>
-				{item.name}
-			</div>
-			))}
+				{items}
 		</div>
 		</div>
 	  );
@@ -73,4 +78,4 @@ class Search extends Component{
 	
 }
 
-export default Search;
+export default Login;
